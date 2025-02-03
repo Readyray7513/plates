@@ -1,31 +1,32 @@
-def main():
-    plate = input("Plate: ")
-    if is_valid(plate):
-        print("Valid")
-    else:
-        print("Invalid")
-
 
 def is_valid(s):
-    # Check if the length of the plate is between 2 and 6 characters
-    if 6 >= len(s) >= 2 and s[0:2].isalpha() and s.isalnum():
-        for char in s:
-            if char.isdigit():
-                index = s.index(char)
-                if s[index:].isdigit() and char != '0':
-                    return True
-                else:
-                    return False
-        return True
-main()
+    # Check if the first two characters are letters
+    if not s[:2].isalpha():
+        return False
+    
+    # Check length
+    if not (2 <= len(s) <= 6):
+        return False
+    
+    # Check for invalid characters
+    if not s.isalnum():
+        return False
+    
+    # Check if numbers are at the end and the first number is not '0'
+    num_started = False
+    for i, char in enumerate(s):
+        if char.isdigit():
+            if not num_started and char == '0':
+                return False
+            num_started = True
+        elif num_started:
+            # If a letter comes after a number, it's invalid
+            return False
+    
+    return True
 
 
 
-
-
-
-#“Numbers cannot be used in the middle of a plate; they must come at the end. 
-# For example, AAA222 would be an acceptable … vanity plate; AAA22A would not be acceptable. 
 
 # The first number used cannot be a ‘0’.”
 #“No periods, spaces, or punctuation marks are allowed.”
